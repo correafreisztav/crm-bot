@@ -18,3 +18,4 @@ __pycache__/
 
 # Archivo de versión de Python (pyenv)
 .python-version
+src/.adk
