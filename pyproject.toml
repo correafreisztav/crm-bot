@@ -1,0 +1,14 @@
+[project]
+name = "crm-bot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "google-adk>=1.0.0",
+    "google-genai>=1.5.0",
+    "google-cloud-aiplatform[adk,agent-engines]>=1.93.0",
+    "google-api-python-client>=2.0.0",
+    "google-auth-httplib2>=0.1.0",
+    "google-auth-oauthlib>=0.7.0",
+]
