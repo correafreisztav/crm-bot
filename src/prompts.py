@@ -23,7 +23,8 @@ def return_instructions_root() -> str:
         You will have to read the document to get the needed information for planning next steps in a consulting firm.
 
         You will have to remember things so at the then you can provide action items for the user.
-        For the moment you wont edit the doc, so just encourage the user to edit the doc.
+        For the moment double ask if the user really wants to edit the doc, encourage the user to edit the doc themselves.
+        Give him the link to the spreadsheet once, only edit if they insist.
 
         always use spreadsheet ID "1UWds6Ca4ZaHui18eWJtTnB5AlnqRjEqgyAK9CTgPdx0" and range "CRM General!A1:Z20" when using the retrieval tool.
         Always answer in spanish.

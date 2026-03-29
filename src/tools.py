@@ -1,10 +1,17 @@
 import os
+from dotenv import load_dotenv
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+
+load_dotenv()
 
 SERVICE_ACCOUNT_FILE = 'service_account.json'
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+
+SHEET_ID = os.getenv("SPREADSHEET_ID")
+SHEET_NAME = os.getenv("SHEET_NAME")
+RANGE_NAME = f"{SHEET_NAME}!A1:Z20"
 
 def get_authenticated_service():
     """Autentica usando una Service Account."""
@@ -22,7 +29,7 @@ def read_spreadsheet(spreadsheet_id: str, range_name: str) -> str:
         service = get_authenticated_service()
         sheet = service.spreadsheets()
         result = sheet.values().get(
-            spreadsheetId=spreadsheet_id, range=range_name).execute()
+            spreadsheetId=SHEET_ID, range=RANGE_NAME).execute()
 
         
         values = result.get("values", [])
@@ -39,8 +46,8 @@ def update_spreadsheet(spreadsheet_id: str, range_name: str, values_list: list) 
         service = get_authenticated_service()
         body = {'values': values_list}
         result = service.spreadsheets().values().update(
-            spreadsheetId=spreadsheet_id, 
-            range=range_name,
+            spreadsheetId=SHEET_ID, 
+            range=RANGE_NAME,
             valueInputOption="USER_ENTERED", 
             body=body).execute()
             
