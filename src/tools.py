@@ -1,3 +1,4 @@
+import json
 import os
 from dotenv import load_dotenv
 from google.oauth2 import service_account
@@ -15,11 +16,13 @@ RANGE_NAME = f"{SHEET_NAME}!A1:Z20"
 
 def get_authenticated_service():
     """Autentica usando una Service Account."""
-    if not os.path.exists(SERVICE_ACCOUNT_FILE):
-        raise FileNotFoundError(f"No se encontró el archivo {SERVICE_ACCOUNT_FILE}")
-    
-    creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    service_account_info = os.getenv("SERVICE_ACCOUNT_JSON_DATA")
+    if service_account_info:
+        info = json.loads(service_account_info)
+        creds = service_account.Credentials.from_service_account_info(info, scopes=SCOPES)
+    else:
+        file_path = os.getenv("SERVICE_ACCOUNT_FILE", "service_account.json")
+        creds = service_account.Credentials.from_service_account_file(file_path, scopes=SCOPES)    
     
     return build("sheets", "v4", credentials=creds)
 
