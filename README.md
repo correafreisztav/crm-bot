@@ -15,12 +15,16 @@ uv sync
 Configurar las variables:
 Crea un archivo .env en la raíz y pega lo siguiente:
 
+```bash
 GOOGLE_CLOUD_PROJECT=response-bot
 GOOGLE_CLOUD_LOCATION=us-central1
 SPREADSHEET_ID=your-spreadsheet-id
 SHEET_NAME=CRM General
 AGENT_MODEL=gemini-2.5-flash
-📊 Configuración de Google Sheets
+```
+
+
+#### 📊 Configuración de Google Sheets
 El bot utiliza una Service Account para entrar a tu Excel.
 
 Obtener la llave: Debes tener un archivo llamado service_account.json en la carpeta raíz.
@@ -41,16 +45,18 @@ gcloud services enable run.googleapis.com secretmanager.googleapis.com cloudbuil
 gcloud projects add-iam-policy-binding TU_PROJECT_ID \
     --member="serviceAccount:TU_NUMERO_DE_PROYECTO-compute@developer.gserviceaccount.com" \
     --role="roles/aiplatform.user"
+```
 
 Configuración de Seguridad
 No subimos el archivo JSON a la nube. Lo guardamos en el Secret Manager:
 
-Bash
+```bash
 gcloud secrets create GOOGLE_SHEETS_CREDENTIALS --data-file=\"service_account.json\"
-Comando de Despliegue
-Usamos ADK para subir todo automáticamente:
+```
 
-Bash
+### 🤖 Deployment en Cloud Run
+
+```bash
 adk deploy cloud_run \\
   --project=response-bot \\
   --region=us-central1 \\
@@ -60,11 +66,13 @@ adk deploy cloud_run \\
   -- \\
   --set-secrets=\"SERVICE_ACCOUNT_JSON_DATA=GOOGLE_SHEETS_CREDENTIALS:latest\" \\
   --set-env-vars=\"SPREADSHEET_ID=your-spreadsheet-id,SHEET_NAME=CRM General\"
+```
 
 Acceso Público para que todos puedan entrar a la URL generada:
 
-Bash
+```bash
 gcloud run services add-iam-policy-binding crm-behavioral-bot \\
     --region=us-central1 \\
     --member=allUsers \\
     --role=roles/run.invoker
+```
